@@ -11,4 +11,5 @@ The RPC method was removed because it's possible to get calculate the status of
 a stake account on the client-side.
 
 This repo contains Rust and JS code for mimicking `GetStakeActivation` on the
-client-side.
+client-side. See the `examples/` in each repo to see how to use them, or read
+the source code!
