@@ -1,5 +1,5 @@
 [package]
-name = "solana-get-stake-activation"
+name = "solana-rpc-get-stake-activation"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,3 +9,6 @@ serde = "1"
 solana-rpc-client = "2.0.3"
 solana-rpc-client-api = "2.0.3"
 solana-sdk = "2.0.3"
+
+[[example]]
+name = "rpc"
