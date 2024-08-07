@@ -1,5 +1,5 @@
 {
-  "name": "solana-get-stake-activation",
+  "name": "solana-rpc-get-stake-activation",
   "version": "1.0.0",
   "description": "Client-side replica of Solana RPC's getStakeActivation",
   "sideEffects": false,
@@ -9,7 +9,7 @@
   "type": "commonjs",
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -58,9 +58,6 @@
   "ava": {
     "nodeArguments": [
       "--no-warnings"
-    ],
-    "require": [
-      "@solana/webcrypto-ed25519-polyfill"
     ],
     "typescript": {
       "compile": false,
