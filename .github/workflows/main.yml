@@ -1,0 +1,90 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  format_and_lint_js:
+    name: Format & Lint JS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          js: true
+
+      - name: Install Dependencies
+        run: cd js && pnpm install --frozen-lockfile
+
+      - name: Format
+        run: cd js && pnpm format
+
+      - name: Lint
+        run: cd js && pnpm lint
+
+  test_js:
+    name: Test JS
+    runs-on: ubuntu-latest
+    needs: format_and_lint_js
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          js: true
+
+      - name: Install Dependencies
+        run: cd js && pnpm install --frozen-lockfile
+
+      - name: Build code
+        run: cd js && pnpm build
+
+      - name: Run tests
+        run: cd js && pnpm test
+
+  format_and_lint_rust:
+    name: Format & Lint Rust
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          clippy: true
+          rustfmt: true
+          cargo-cache-key: cargo-lint-tests
+          cargo-cache-fallback-key: cargo-lint
+
+      - name: Format Rust
+        run: cd rust && cargo fmt --check
+
+      - name: Lint Rust
+        run: cd rust && cargo clippy
+
+  test_rust:
+    name: Test Rust
+    runs-on: ubuntu-latest
+    needs: format_and_lint_rust
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          rust: true
+          cargo-cache-key: cargo-rust-tests
+          cargo-cache-fallback-key: cargo-rust
+
+      - name: Run tests
+        run: cd rust && cargo test
