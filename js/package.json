@@ -1,5 +1,5 @@
 {
-  "name": "solana-rpc-get-stake-activation",
+  "name": "@solana-developers/solana-rpc-get-stake-activation",
   "version": "1.0.0",
   "description": "Client-side replica of Solana RPC's getStakeActivation",
   "sideEffects": false,
@@ -7,10 +7,22 @@
   "main": "./dist/src/index.js",
   "types": "./dist/types/index.d.ts",
   "type": "commonjs",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "blockchain",
+    "solana",
+    "rpc",
+    "web3"
+  ],
+  "author": "Solana Developers Maintainers <maintainers@solana.org>",
   "license": "Apache-2.0",
   "packageManager": "pnpm@9.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solana-developers/solana-rpc-get-stake-activation"
+  },
+  "bugs": {
+    "url": "https://github.com/solana-developers/solana-rpc-get-stake-activation/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
