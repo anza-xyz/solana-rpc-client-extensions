@@ -24,7 +24,10 @@ export async function getStakeActivation(
     (async () => {
       const stakeAccountEncoded = await fetchEncodedAccount(rpc, stakeAddress);
       assertAccountExists(stakeAccountEncoded);
-      const stakeAccount = decodeAccount(stakeAccountEncoded, stakeAccountCodec);
+      const stakeAccount = decodeAccount(
+        stakeAccountEncoded,
+        stakeAccountCodec
+      );
       if (stakeAccount.data.discriminant === 0) {
         throw new Error('');
       }
@@ -36,7 +39,10 @@ export async function getStakeActivation(
         SYSVAR_STAKE_HISTORY_ADDRESS
       );
       assertAccountExists(stakeHistoryAccountEncoded);
-      const stakeHistory = decodeAccount(stakeHistoryAccountEncoded, stakeHistoryCodec);
+      const stakeHistory = decodeAccount(
+        stakeHistoryAccountEncoded,
+        stakeHistoryCodec
+      );
       return stakeHistory;
     })(),
   ]);
