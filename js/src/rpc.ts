@@ -24,7 +24,7 @@ export async function getStakeActivation(
     (async () => {
       const stakeAccountEncoded = await fetchEncodedAccount(rpc, stakeAddress);
       assertAccountExists(stakeAccountEncoded);
-      const stakeAccount = decodeAccount(stakeAccount, stakeAccountCodec);
+      const stakeAccount = decodeAccount(stakeAccountEncoded, stakeAccountCodec);
       if (stakeAccount.data.discriminant === 0) {
         throw new Error('');
       }
