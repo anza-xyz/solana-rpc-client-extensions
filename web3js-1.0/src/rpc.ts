@@ -16,7 +16,7 @@ export async function getStakeActivation(
   const [epochInfo, stakeAccount, stakeHistory] = await Promise.all([
     connection.getEpochInfo(),
     (async () => {
-      const stakeAccountParsed = connection.getParsedAccountInfo(stakeAddress);
+      const stakeAccountParsed = await connection.getParsedAccountInfo(stakeAddress);
       if (stakeAccountParsed === null || stakeAccountParsed.value === null) {
         throw new Error("Account not found");
       }
