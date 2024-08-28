@@ -1,0 +1,103 @@
+name: Setup environment
+
+inputs:
+  cargo-cache-key:
+    description: The key to cache cargo dependencies. Skips cargo caching if not provided.
+    required: false
+  cargo-cache-fallback-key:
+    description: The fallback key to use when caching cargo dependencies. Default to not using a fallback key.
+    required: false
+  cargo-cache-local-key:
+    description: The key to cache local cargo dependencies. Skips local cargo caching if not provided.
+    required: false
+  clippy:
+    description: Install Clippy if `true`. Defaults to `false`.
+    required: false
+  rustfmt:
+    description: Install Rustfmt if `true`. Defaults to `false`.
+    required: false
+  js:
+    description: Install pnpm and node if `true`. Defaults to `false`.
+    required: false
+  rust:
+    description: Install Rust if `true`. Defaults to `false`.
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup pnpm
+      if: ${{ inputs.js == 'true' }}
+      uses: pnpm/action-setup@v3
+      with:
+        package_json_file: 'js/package.json'
+
+    - name: Setup Node.js
+      if: ${{ inputs.js == 'true' }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+        cache-dependency-path: 'js/pnpm-lock.yaml'
+
+    - name: Install Rustfmt
+      if: ${{ inputs.rustfmt == 'true' }}
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: "1.78.0"
+        components: rustfmt
+
+    - name: Install Clippy
+      if: ${{ inputs.clippy == 'true' }}
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: "1.78.0"
+        components: clippy
+
+    - name: Install Rust
+      if: ${{ inputs.rust == 'true' }}
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: "1.78.0"
+
+    - name: Cache Cargo Dependencies
+      if: ${{ inputs.cargo-cache-key && !inputs.cargo-cache-fallback-key }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-${{ inputs.cargo-cache-key }}-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-${{ inputs.cargo-cache-key }}
+
+    - name: Cache Cargo Dependencies With Fallback
+      if: ${{ inputs.cargo-cache-key && inputs.cargo-cache-fallback-key }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-${{ inputs.cargo-cache-key }}-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.cargo-cache-key }}
+          ${{ runner.os }}-${{ inputs.cargo-cache-fallback-key }}-${{ hashFiles('**/Cargo.lock') }}
+          ${{ runner.os }}-${{ inputs.cargo-cache-fallback-key }}
+
+    - name: Cache Local Cargo Dependencies
+      if: ${{ inputs.cargo-cache-local-key }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          .cargo/bin/
+          .cargo/registry/index/
+          .cargo/registry/cache/
+          .cargo/git/db/
+        key: ${{ runner.os }}-${{ inputs.cargo-cache-local-key }}-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-${{ inputs.cargo-cache-local-key }}
+
