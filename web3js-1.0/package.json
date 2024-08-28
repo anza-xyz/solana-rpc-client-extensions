@@ -1,0 +1,62 @@
+{
+  "name": "solana-rpc-get-stake-activation",
+  "version": "1.0.0",
+  "description": "Client-side replica of Solana RPC's getStakeActivation",
+  "sideEffects": false,
+  "module": "./dist/src/index.mjs",
+  "main": "./dist/src/index.js",
+  "types": "./dist/types/index.d.ts",
+  "type": "commonjs",
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/src/index.mjs",
+      "require": "./dist/src/index.js"
+    }
+  },
+  "files": [
+    "./dist/src",
+    "./dist/types"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsup && tsc -p ./tsconfig.declarations.json",
+    "build:docs": "typedoc",
+    "test": "ava",
+    "lint": "eslint --ext js,ts,tsx src",
+    "lint:fix": "eslint --fix --ext js,ts,tsx src",
+    "format": "prettier --check src test",
+    "format:fix": "prettier --write src test",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.3"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^4.1.0",
+    "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "ava": "^6.1.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.1.2",
+    "typedoc": "^0.25.12",
+    "typedoc-plugin-missing-exports": "^2.2.0",
+    "typescript": "^5.5.3"
+  },
+  "ava": {
+    "nodeArguments": [
+      "--no-warnings"
+    ],
+    "typescript": {
+      "compile": false,
+      "rewritePaths": {
+        "test/": "dist/test/"
+      }
+    }
+  }
+}
