@@ -13,20 +13,23 @@ export async function getStakeActivation(
   stakeAddress: PublicKey
 ): Promise<StakeActivation> {
   const SYSVAR_STAKE_HISTORY_ADDRESS = new PublicKey("SysvarStakeHistory1111111111111111111111111");
-  const stakeAccountParsed = await connection.getParsedAccountInfo(stakeAddress);
-  if (stakeAccountParsed === null || stakeAccountParsed.value === null) {
-    throw new Error("Account not found");
-  }
-  const stakeHistoryParsed = await connection.getParsedAccountInfo(SYSVAR_STAKE_HISTORY_ADDRESS);
-  if (stakeHistoryParsed === null) {
-    throw new Error("StakeHistory not found");
-  }
-
-  const stakeHistory = getStakeHistory(stakeHistoryParsed);
-  
-  const epochInfo = await connection.getEpochInfo();
-
-  const stakeAccount = getStakeAccount(stakeAccountParsed);
+  const [epochInfo, stakeAccount, stakeHistory] = await Promise.all([
+    connection.getEpochInfo(),
+    (async () => {
+      const stakeAccountParsed = connection.getParsedAccountInfo(stakeAddress);
+      if (stakeAccountParsed === null || stakeAccountParsed.value === null) {
+        throw new Error("Account not found");
+      }
+      return getStakeAccount(stakeAccountParsed);
+    })(),
+    (async () => {
+      const stakeHistoryParsed = await connection.getParsedAccountInfo(SYSVAR_STAKE_HISTORY_ADDRESS);
+      if (stakeHistoryParsed === null) {
+        throw new Error("StakeHistory not found");
+      }
+      return getStakeHistory(stakeHistoryParsed);
+    })(),
+  ]);
 
   const { effective, activating, deactivating } =
     getStakeActivatingAndDeactivating(
