@@ -13,14 +13,16 @@ export async function getStakeActivation(
   stakeAddress: PublicKey
 ): Promise<StakeActivation> {
   const SYSVAR_STAKE_HISTORY_ADDRESS = new PublicKey("SysvarStakeHistory1111111111111111111111111");
-  const [epochInfo, stakeAccount, stakeHistory] = await Promise.all([
+  const [epochInfo, { stakeAccount, stakeAccountLamports }, stakeHistory] = await Promise.all([
     connection.getEpochInfo(),
     (async () => {
       const stakeAccountParsed = await connection.getParsedAccountInfo(stakeAddress);
       if (stakeAccountParsed === null || stakeAccountParsed.value === null) {
         throw new Error("Account not found");
       }
-      return getStakeAccount(stakeAccountParsed);
+      const stakeAccount = getStakeAccount(stakeAccountParsed);
+      const stakeAccountLamports = stakeAccountParsed.value.lamports;
+      return { stakeAccount, stakeAccountLamports };
     })(),
     (async () => {
       const stakeHistoryParsed = await connection.getParsedAccountInfo(SYSVAR_STAKE_HISTORY_ADDRESS);
@@ -48,7 +50,7 @@ export async function getStakeActivation(
   } else {
     status = 'inactive';
   }
-  const inactive = BigInt(stakeAccountParsed.value.lamports) - effective - stakeAccount.meta.rentExemptReserve;
+  const inactive = BigInt(stakeAccountLamports) - effective - stakeAccount.meta.rentExemptReserve;
 
   return {
     status,
