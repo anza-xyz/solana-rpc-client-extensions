@@ -23,6 +23,9 @@
   "bugs": {
     "url": "https://github.com/anza-xyz/solana-rpc-client-extensions/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
