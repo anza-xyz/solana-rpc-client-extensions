@@ -1,6 +1,6 @@
 {
   "name": "@anza-xyz/solana-rpc-get-stake-activation",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Client-side replica of Solana RPC's getStakeActivation",
   "sideEffects": false,
   "module": "./dist/src/index.mjs",
