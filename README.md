@@ -1,6 +1,11 @@
-# solana-rpc-get-stake-activation
+# solana-rpc-client-extensions
 
-Rust and JS code to perform Solana RPC's GetStakeActivation client-side
+Rust and JS code to perform Solana RPC calls on the client-side. Currently
+covers the following RPC calls and packages:
+
+| RPC Call | Rust Package | JS Package | JS v1 Package |
+| --- | --- | --- | --- |
+| `GetStakeActivation` | `solana-rpc-get-stake-activation` | `@anza-xyz/solana-rpc-get-stake-activation` | `@anza-xyz/solana-rpc-get-stake-activation-v1` |
 
 ## Motivation
 
