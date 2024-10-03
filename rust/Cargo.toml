@@ -1,6 +1,7 @@
 [package]
 name = "solana-rpc-get-stake-activation"
 version = "0.1.0"
+description = "Client-side implementation of Solana RPC's GetStakeActivation"
 documentation = "https://docs.rs/solana-rpc-get-stake-activation"
 authors = ["Anza Maintainers <maintainers@anza.xyz>"]
 repository = "https://github.com/anza-xyz/solana-rpc-client-extensions"
