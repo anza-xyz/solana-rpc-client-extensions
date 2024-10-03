@@ -1,15 +1,28 @@
 {
-  "name": "solana-rpc-get-stake-activation",
-  "version": "1.0.0",
+  "name": "@anza-xyz/solana-rpc-get-stake-activation",
+  "version": "2.0.0",
   "description": "Client-side replica of Solana RPC's getStakeActivation",
   "sideEffects": false,
   "module": "./dist/src/index.mjs",
   "main": "./dist/src/index.js",
   "types": "./dist/types/index.d.ts",
   "type": "commonjs",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "blockchain",
+    "solana",
+    "rpc",
+    "web3"
+  ],
+  "author": "Anza Maintainers <maintainers@anza.xyz>",
   "license": "Apache-2.0",
+  "packageManager": "pnpm@9.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anza-xyz/solana-rpc-client-extensions"
+  },
+  "bugs": {
+    "url": "https://github.com/anza-xyz/solana-rpc-client-extensions/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
