@@ -113,7 +113,7 @@ export function getStakeActivatingAndDeactivating(
       activating,
       deactivating: BigInt(0),
     };
-  } else if (targetEpoch == delegation.deactivationEpoch) {
+  } else if (targetEpoch === delegation.deactivationEpoch) {
     // can only deactivate what's activated
     return {
       effective,
