@@ -1,4 +1,4 @@
-import { Delegation, StakeHistoryEntry } from "./stake";
+import { Delegation, StakeHistoryEntry } from './stake';
 
 export interface StakeActivatingAndDeactivating {
   effective: bigint;
@@ -36,7 +36,7 @@ export function getStakeAndActivating(
       effective: BigInt(0),
       activating: BigInt(0),
     };
-  }  else if (targetEpoch === delegation.activationEpoch) {
+  } else if (targetEpoch === delegation.activationEpoch) {
     // all is activating
     return {
       effective: BigInt(0),
