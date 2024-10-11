@@ -50,6 +50,49 @@ jobs:
       - name: Run tests
         run: cd js && pnpm test
 
+  format_and_lint_js_v1:
+    name: Format & Lint JS (web3.js v1)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          js: true
+
+      - name: Install Dependencies
+        run: cd js-v1 && pnpm install --frozen-lockfile
+
+      - name: Format
+        run: cd js-v1 && pnpm format
+
+      - name: Lint
+        run: cd js-v1 && pnpm lint
+
+  test_js_v1:
+    name: Test JS (web3.js v1)
+    runs-on: ubuntu-latest
+    needs: format_and_lint_js
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          js: true
+
+      - name: Install Dependencies
+        run: cd js-v1 && pnpm install --frozen-lockfile
+
+      - name: Build code
+        run: cd js-v1 && pnpm build
+
+      - name: Run tests
+        run: cd js-v1 && pnpm test
+
   format_and_lint_rust:
     name: Format & Lint Rust
     runs-on: ubuntu-latest
