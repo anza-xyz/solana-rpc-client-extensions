@@ -33,12 +33,16 @@ export async function getStakeActivation(
     })(),
   ]);
 
-  const { effective, activating, deactivating } =
+  const { effective, activating, deactivating } = stakeAccount.stake ?
     getStakeActivatingAndDeactivating(
       stakeAccount.stake.delegation,
       BigInt(epochInfo.epoch),
       stakeHistory
-    );
+    ) : {
+      effective: BigInt(0),
+      activating: BigInt(0),
+      deactivating: BigInt(0),
+    };
 
   let status;
   if (deactivating > 0) {

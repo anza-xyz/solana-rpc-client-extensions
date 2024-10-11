@@ -31,7 +31,7 @@ export type StakeAccount = {
   stake: {
     delegation: Delegation,
     creditsObserved: bigint
-  }
+  } | null
 }
 
 export const getStakeHistory = function (parsedData: RpcResponseAndContext<AccountInfo<ParsedAccountData | Buffer> | null>): StakeHistoryEntry[] {
@@ -77,7 +77,7 @@ export const getStakeAccount = function (parsedData: RpcResponseAndContext<Accou
         custodian: parsedData.value.data.parsed.info.meta.lockup.custodian
       }
     },
-    stake: {
+    stake: parsedData.value.data.parsed.info.stake ? {
       delegation: {
         voterPubkey: parsedData.value.data.parsed.info.stake.delegation.voterPubkey,
         stake: BigInt(parsedData.value.data.parsed.info.stake.delegation.stake),
@@ -85,6 +85,6 @@ export const getStakeAccount = function (parsedData: RpcResponseAndContext<Accou
         deactivationEpoch: BigInt(parsedData.value.data.parsed.info.stake.delegation.deactivationEpoch),
       },
       creditsObserved: BigInt(parsedData.value.data.parsed.info.stake.creditsObserved)
-    }
+    } : null
   }
 }
