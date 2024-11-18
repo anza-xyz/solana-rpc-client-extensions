@@ -12,9 +12,9 @@ export async function getStakeActivation(
   connection: Connection,
   stakeAddress: PublicKey
 ): Promise<StakeActivation> {
-  const SYSVAR_STAKE_HISTORY_ADDRESS = new PublicKey(
-    'SysvarStakeHistory1111111111111111111111111'
-  );
+  const SYSVAR_STAKE_HISTORY_ADDRESS = {
+    toBase58: () => 'SysvarStakeHistory1111111111111111111111111',
+  } as unknown as PublicKey; // Prevents a concrete dependency on `PublicKey`
   const [epochInfo, { stakeAccount, stakeAccountLamports }, stakeHistory] =
     await Promise.all([
       connection.getEpochInfo(),
